@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "nome": "Cliente 1",
+    "icon": "client-1",
+    "extrato": [
+      { "descricao": "Compra Copo", "valor": -5.00 },
+      { "descricao": "Devolução Copo", "valor": 5.00 }
+    ],
+    "saldo": 0
+  },
+  {
+    "id": 2,
+    "nome": "Cliente 2",
+    "icon": "client-2",
+    "extrato": [
+      { "descricao": "Compra Copo", "valor": -5.00 }
+    ],
+    "saldo": -5
+  },
+  {
+    "id": 3,
+    "nome": "Cliente 3",
+    "icon": "client-3",
+    "extrato": [],
+    "saldo": 0
+  },
+  {
+    "id": 4,
+    "nome": "Cliente 4",
+    "icon": "client-4",
+    "extrato": [
+      { "descricao": "Devolução Copo", "valor": 5.00 }
+    ],
+    "saldo": 5
+  }
+]

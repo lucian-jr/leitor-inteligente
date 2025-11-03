@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto';
   line-height: 1.5;
   font-weight: 400;
 
@@ -28,6 +32,9 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-image: url('./assets/bg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 h1 {
@@ -52,6 +59,40 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.card {
+  background: #ffffff47;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border-radius: 10px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 16px !important;
+  padding-top: 30px !important;
+  color: #1a1a1a;
+
+  height: 500px;
+  min-width: 250px;
+  max-width: 250px;
+
+  font-size: 14px;
+  cursor: pointer;
+  transition: ease-in-out .3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card.active {
+  background: #ffffffb6;
+}
+
+.client-infos {
+  background-color: #f1f1f1;
+  height: 335px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 @media (prefers-color-scheme: light) {
