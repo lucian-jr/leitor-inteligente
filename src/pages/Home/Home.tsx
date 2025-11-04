@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
+
 
 import CIcon1 from '../../assets/icons/client-1.svg'
 import CIcon2 from '../../assets/icons/client-2.svg'
 import CIcon3 from '../../assets/icons/client-3.svg'
 import CIcon4 from '../../assets/icons/client-4.svg'
+import { useHome } from '../../hooks/useHome';
 
-import clientsJson from '../../data/clients.json'
+
 import { formataValor } from '../../utils/value.util';
-import type { lastIdDataType } from '../../services/reads/reads.types';
-import { getLastInsertedData, getLastInsertedId } from '../../services/reads/reads.service';
+
 
 const ICONS: Record<string, string> = {
   'client-1': CIcon1,
@@ -17,59 +17,36 @@ const ICONS: Record<string, string> = {
   'client-4': CIcon4,
 };
 
-type ClientTypes = {
-  id: number;
-  nome: string;
-  icon: string;
-  saldo: number;
-  extrato: Array<{ descricao: string; valor: number }>;
-};
-
 const Home = () => {
-  const [clients, setClients] = useState<ClientTypes[]>(clientsJson);
-  const [clientCurrentId, setClientCurrentId] = useState<number | null>(null)
-  const [lastIdData, setLastIdData] = useState<lastIdDataType | null>(null)
 
-  const handleClientCard = async (id: number) => {
-    if (!lastIdData) return;
-
-    setClientCurrentId(id);
-
-    const interval = setInterval(async () => {
-      const res = await getLastInsertedData(lastIdData.id);
-
-      if (!res) {
-        console.log('Aguardando bip do copo...');
-        return;
-      }
-
-      console.log("Resposta recebida:", res);
-
-      clearInterval(interval);
-    }, 2000);
-  };
-
-  useEffect(() => {
-    const fetchLastId = async () => {
-      const res = await getLastInsertedId();
-
-      if (!res) {
-        console.log('Houve um problema ao buscar o ultimo id');
-        return;
-      }
-
-      setLastIdData(res.last_id_data)
-    }
-
-    fetchLastId();
-  }, [])
-
-  useEffect(() => {
-    console.log(lastIdData)
-  }, [lastIdData])
+  const {
+    clients,
+    clientCurrentId,
+    lastIdData,
+    waiting,
+    handleCancel,
+    handleClientCard
+  } = useHome();
 
   return (
     <div className="flex items-center justify-center gap-5 min-h-[70vh]">
+      {waiting &&
+        <div className='absolute w-[100vw] h-[100vh] top-0 left-0 bg-[#02020270] z-1 flex flex-col items-center justify-center'>
+          <div className="flex flex-col items-center gap-3 animate-pulse mb-6">
+            <div className="w-24 h-24 bg-green-300/40 rounded-full border-4 border-green-400 animate-ping"></div>
+            <p className="text-lg font-medium text-white-700 mt-10">
+              Passe o copo no leitor...
+            </p>
+          </div>
+
+          <button
+            onClick={handleCancel}
+            className="px-6 py-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 transition"
+          >
+            Cancelar
+          </button>
+        </div>
+      }
       {lastIdData ?
         (
           clients.map(c => (
@@ -81,15 +58,21 @@ const Home = () => {
               <p className="font-bold mb-3">{c.nome}</p>
 
               <div className="client-infos bg-[#F1F1F1] text-start p-3">
-                <p className="mb-3">EXTRATO</p>
+                <p className="mb-3 font-medium roboto-mono">EXTRATO</p>
 
-
+                {c.extrato.map((e, index) =>
+                  e.valor > 0 &&
+                  <div key={index} className='flex justify-between'>
+                    <span className='roboto-mono'>{e.descricao}</span>
+                    <span className='roboto-mono'>{e.descricao === 'Compra Copo' ? '-' : '+'}R$ {formataValor(e.valor.toString())}</span>
+                  </div>
+                )}
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="block">SALDO</span>
+                <span className="block font-medium roboto-mono">SALDO</span>
 
-                <span className="block">R$ {formataValor(c.saldo.toString())}</span>
+                <span className="block font-medium roboto-mono">R$ {formataValor(c.saldo.toString())}</span>
               </div>
             </div>
           ))

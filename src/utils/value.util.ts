@@ -8,7 +8,7 @@ function number_format(number: string, decimals: number, dec_point: string, thou
 	sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
 	dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
 	s: any = '',
-	toFixedFix = function(n, prec:number) {
+	toFixedFix = function(n:number, prec:number) {
 		var k = Math.pow(10, prec);
 		return '' + (Math.round(n * k) / k)
 		.toFixed(prec);

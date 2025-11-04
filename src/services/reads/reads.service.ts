@@ -23,9 +23,9 @@ export const getLastInsertedId = async () => {
     }
 }
 
-export const getLastInsertedData = async (last_id : number) => {
+export const getLastInsertedData = async (last_id : number, antena: number) => {
     try {
-        const response = await api.get(`get_last_inserted_data/${last_id}?v=${Date.now()}`);
+        const response = await api.get(`get_last_inserted_data/${last_id}/${antena}?v=${Date.now()}`);
         
         const data: getLastInsertedRowType = response.data;
 
