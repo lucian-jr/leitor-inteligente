@@ -14,8 +14,8 @@ type ClientType = {
   nome: string;
   icon: string;
   saldo: number;
-  rf_id: string;
-  extrato: Array<{ descricao: string; valor: number }>;
+  rfids: Array<string>;
+  extrato: Array<{ descricao: string; valor: number; rfid: string }>;
 };
 
 export const useHome = () => {
